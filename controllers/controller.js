@@ -1,7 +1,7 @@
 
 const util = require('util')
 const mysql = require('mysql')
-const db = require('./../db')
+const db = require('../models/api/db')
 var crypto = require('crypto');
 var express=require("express");
 

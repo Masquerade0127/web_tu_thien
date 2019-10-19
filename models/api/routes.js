@@ -1,7 +1,7 @@
 
 
 module.exports = function(app) {
-  let controllerFuntion = require('./controllers/controller');
+  let controllerFuntion = require('../../controllers/controller');
 
   // todoList Routes
   app.route('/registers')
