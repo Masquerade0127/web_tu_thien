@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 
 var app = express();
 
@@ -16,11 +16,11 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-let routes = require('./models/api/routes') //importing route
-routes(app)
+let routes = require('./models/api/routes'); //importing route
+routes(app);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
