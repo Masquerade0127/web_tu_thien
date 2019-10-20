@@ -62,7 +62,8 @@ CREATE TABLE ANSWER(
 CREATE TABLE USER(
 	ID char(10) Primary key,
 	User_name varchar(100) not null,
-	Password char(20) not null
+	Password char(20) not null,
+	Email char(100) not null
 );
 
 
