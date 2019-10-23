@@ -4,45 +4,59 @@ const mysql = require('mysql')
 const db = require('../models/api/db')
 var crypto = require('crypto');
 var express=require("express");
-
+var  numberID = 3;
 
 module.exports = {
-	registerAdmin: (req, res)=>{
-		var today = new Date()
-		console.log(req.body.name)
-		console.log(req.body.password)
-		var hash = crypto.createHash('sha256').update(req.body.password).digest('hex');
-		console.log(hash)
+/**
+ * description
+ *
+ * @param {string}name is the name of admin.
+ * @param {string}email is the email of admin.
+ * @param {string}password is the password of admin.
+
+ * @return status is true if successs and fail if fail.
+ */
+ 	registerAdmin: (req, res)=>{
+		// hash password 
+		// var hash = crypto.createHash('sha256').update(req.body.password).digest('hex');
 
 		var users = {
-			"name": req.body.name,
-			"email": req.body.email,
-			"password": hash,
-			"created_at": today,
-			"updated_at": today
+			"ID": "AD_0" + numberID.toString(),
+			"User_name": req.body.name,
+			"Email": req.body.email,
+			"Password": req.body.password
 		}
+		numberID = numberID +1
+		console.log(numberID)
 
-		db.query('INSERT INTO admin SET ?',users, function(error, result, fields){
+		db.query("INSERT INTO ADMIN SET ?", users, function (error, result){
 			if (error){
 				res.json({
-					status: fail,
-					message: 'there are some error with query'
+					"status": "fail",
+					"message": "there are some error with query"
 				})
-			}
-
-			else{
+			}else{
 				res.json({
-					status: true,
-					data: result,
-					message:'user registered sucessfully'
+					"status": "true",
+					"message": 'user registered sucessfully'
 				})
 			}
 		})
+
 	},
 
+/**
+ * description
+ *
+ * @param {string}email is the email of admin.
+ * @param {string}password is the password of admin.
+
+ * @return status is true if successs and fail if fail.
+ */
 	loginAdmin: (req, res)=>{
 		var email = req.body.email
-		db.query('SELECT * FROM admin WHERE email = ?',[email], function (error, results, fields) {
+		var password = req.body.password
+		db.query('SELECT * FROM ADMIN WHERE email = ?',[email], function (error, results, fields) {
       if (error) {
           res.json({
             status:false,
@@ -51,12 +65,10 @@ module.exports = {
       }else{
        
         if(results.length >0){
-  			hash_password = crypto.createHash('sha256').update(req.body.password).digest('hex');
-  			console.log(hash_password)
-            if(hash_password==results[0].password){
+            if(password==results[0].Password){
                 res.json({
-                    status:true,
-                    message:'successfully authenticated'
+                    "status": "true",
+                    "message" :'successfully authenticated'
                 })
             }else{
                 res.json({
@@ -74,77 +86,7 @@ module.exports = {
         }
       }
     });
-},
-
-	registerUser: (req, res)=>{
-		var today = new Date()
-		console.log(req.body.name)
-		console.log(req.body.password)
-		var hash = crypto.createHash('sha256').update(req.body.password).digest('hex');
-		console.log(hash)
-
-		var users = {
-			"name": req.body.name,
-			"password": hash,
-			"created_at": today,
-			"updated_at": today
-		}
-
-		db.query('INSERT INTO users SET ?',users, function(error, result, fields){
-			if (error){
-				res.json({
-					status: fail,
-					message: 'there are some error with query'
-				})
-			}
-
-			else{
-				res.json({
-					status: true,
-					data: result,
-					message:'user registered sucessfully'
-				})
-			}
-		})
-	},
-
-
-	loginUser: (req, res)=>{
-		var name = req.body.name
-		db.query('SELECT * FROM users WHERE name= ?',[name], function (error, results, fields) {
-      if (error) {
-          res.json({
-            status:false,
-            message:'there are some error with query'
-            })
-      }else{
-       
-        if(results.length >0){
-  			hash_password = crypto.createHash('sha256').update(req.body.password).digest('hex');
-  			console.log(hash_password)
-            if(hash_password==results[0].password){
-                res.json({
-                    status:true,
-                    message:'successfully authenticated'
-                })
-            }else{
-                res.json({
-                  status:false,
-                  message:"Name and password does not match"
-                 });
-            }
-          
-        }
-        else{
-          res.json({
-              status:false,    
-            message:"Name does not exits"
-          });
-        }
-      }
-    });
-}	
-
+}
 
 
 
