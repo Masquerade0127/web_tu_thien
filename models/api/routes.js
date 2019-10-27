@@ -2,18 +2,24 @@
 
 
 module.exports = function(app) {
-  let controllerFuntion = require('../../controllers/controller');
-  let adminController = require('../admin/admin_controller')
+  let adminRegister = require('../admin/admin_register')
+  let adminLogin = require('../admin/admin_login')
+  console.log(adminLogin)
+
+  let adminCtransalte = require('../admin/admin_cstranslate')
+
 
   // todoList Routes
   app.route('/registers')
-    .post(controllerFuntion.registerAdmin);
+    .post(adminRegister.registerAdmin);
 
   app.route('/logins')
-    .post(controllerFuntion.loginAdmin);
+    .post(adminLogin.loginAdmin);
 
   app.route('/ctranslate')
-    .post(adminController.ctranslate);
+    .post(adminCtransalte.ctranslate);
+
+
 
   // app.route('/products/:productId')
   //   .get(productsCtrl.detail)
