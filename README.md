@@ -1,9 +1,13 @@
-﻿# Install
+﻿# Install NodeJS
+    npm install
     
-    Install NodeJS
-    1. npm install
-    
-    Run    
-    2. node app.js
+#   Run Project
+**Watch mode**
+
+    $ nodemon app.js
+
+**Prod mode** 
+
+    $ node app.js
 
 
