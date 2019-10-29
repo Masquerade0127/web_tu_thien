@@ -8,16 +8,15 @@ var methodOverride = require("method-override");
 var expressHbs = require('express-handlebars');
 var mysql = require('mysql');
 const conn = require('./models/api/db.js');
+var app = express();
 
 // Include router
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
-var app = express();
+require('./routes/users.routes')(app);
 
 // Routing
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// app.use('/users', usersRouter);
 
 // Connecting route to database
 app.use(function (req, res, next) {
@@ -33,9 +32,10 @@ app.use(logger('dev'));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Parsing body request
+// parse requests of content-type: application/json
 app.use(express.json());
 app.use(bodyParser.json());
+// parse requests of content-type: application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
@@ -55,8 +55,9 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(3000, function () {
-  console.log('server listening on port 3000');
+const port = 4000;
+app.listen(port, () => {
+  console.log('server listening on port '+port);
 });
 
 module.exports = app;
